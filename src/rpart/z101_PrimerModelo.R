@@ -9,7 +9,7 @@ require("rpart.plot")
 #Aqui se debe poner la carpeta de SU computadora local
 setwd("D:\\gdrive\\Austral2022R\\")  #Establezco el Working Directory
 
-#cargo los datos de 202009 que es donde voy a ENTRENAR el modelo
+#cargo los datos de 202011 que es donde voy a ENTRENAR el modelo
 dtrain  <- fread("./datasets/paquete_premium_202011.csv")
 
 #genero el modelo,  aqui se construye el arbol
