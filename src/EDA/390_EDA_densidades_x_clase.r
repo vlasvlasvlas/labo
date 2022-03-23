@@ -13,8 +13,8 @@ setwd("D:\\gdrive\\Austral2022R\\")   #Establezco el Working Directory
 dataset  <- fread( "./datasets/paquete_premium_202011.csv" )
 
 #primero, creo la carpeta donde van los resultados
-dir.create( "./labo/exp/", showWarnings= FALSE ) 
-dir.create( "./labo/exp/ST3900", showWarnings= FALSE ) 
+dir.create( "./labo/exp/", showWarnings= FALSE )
+dir.create( "./labo/exp/ST3900", showWarnings= FALSE )
 archivo  <- "./labo/exp/ST3900/390_EDA.pdf"
 
 
@@ -30,18 +30,18 @@ campos_buenos  <- setdiff( colnames( dataset ), "clase_binaria")
 for( vcampo in   campos_buenos )
 {
   
-  cardinalidad  <-  dataset[ , length(unique(get(vcampo))) ] 
+  cardinalidad  <-  dataset[ , length(unique(get(vcampo))) ]
 
   if( cardinalidad < 20 )
   {
       grafico  <- ggplot( dataset, aes_string(x= vcampo, fill= "clase_binaria") ) +
-                  geom_histogram(alpha= 0.40, position= "identity", aes(y = ..density..), clolor= "black") 
+                  geom_histogram(alpha= 0.40, position= "identity", aes(y = ..density..), clolor= "black")
 
   } else {
 
-    #para que los graficos se aprecien correctamente, quito ambas colas
+    #para que los graficos se aprecien correctamente, quito ambas colas del 5%
     xlimites  <- quantile( dataset[ , get(vcampo) ],
-                           prob= c(0.02,0.98),
+                           prob= c(0.05,0.95),
                            type= 1,
                            na.rm= TRUE )
 
