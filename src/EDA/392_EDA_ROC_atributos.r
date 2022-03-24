@@ -22,12 +22,13 @@ graficarROC  <- function( tbl,  nalast )
   POS  <- sum( dataset$pos )
   NEG  <- sum( dataset$neg )
 
-  #agrego el origen  (0, 0)
-  tbl  <- rbind( list( -Inf, 0, 0), tbl )
   
   #ordeno en forma ASCENDENTE
   orden  <- 1
   setorderv( tbl, vcampo, orden, na.last= nalast )
+
+  #agrego el origen  (0, 0)
+  tbl  <- rbind( list( -Inf, 0, 0), tbl )
 
   #acumulo positivos y negativos para armar la CurvaROC
   tbl[ , pos_acum := cumsum( pos ) ]
@@ -40,12 +41,15 @@ graficarROC  <- function( tbl,  nalast )
   #si la curva ROC va por debajo de la diagonal, ORDENO inversamente por  vcamnpo
   if( AUC < 0.5 )
   {
-    #ajusto el primer registro artificial para que al reordenar vuelva a quedar primero
-    tbl[  1, paste0(vcampo)  := Inf ]
+    #borro el primer registro
+    tbl  <- tbl[ -1 ]
 
-    #ordeno en forma DESCENTENDE
+    #ordeno en forma DESCENDENTE
     orden  <-  -1
     setorderv( tbl, vcampo, orden, na.last= nalast )
+
+    #agrego primer registro
+    tbl  <- rbind( list( Inf, 0, 0, 0, 0), tbl )
 
     #acumulo positivos y negativos para armar la CurvaROC
     tbl[  , pos_acum  := cumsum( pos ) ]
@@ -55,31 +59,33 @@ graficarROC  <- function( tbl,  nalast )
     AUC  <- tbl[ , sum( (pos_acum + shift(pos_acum)) * ( neg_acum - shift(neg_acum)), na.rm=TRUE )  / (2*POS*NEG ) ]
   }
 
+  if( AUC >= 0.5 )
+  {
+    #genero el grafico de la curva ROC
+    plot( x= tbl$neg_acum,
+          y= tbl$pos_acum,
+          main= paste0( vcampo,  
+                        "    ROC curve, ",
+                        ifelse( NAS==0," no hay NAs, ", 
+                                ifelse( nalast, " NAs last, ", " NAs first, ") ),
+                        "\n",
+                        ifelse( orden== 1, "", " invertido, " ),
+                        "AUC=", round(AUC,4) ),
+          xlab= "negativos",
+          ylab= "positivos",
+          xaxs= "i",
+          yaxs= "i",
+          xlim= c(0, NEG ),
+          ylim= c(0, POS ),
+          col= "blue",
+          type= "l",            #tipo  linea
+          lwd= 6,               #ancho de la linea
+          panel.first = grid()
+        )
 
-  #genero el grafico de la curva ROC
-  plot( x= tbl$neg_acum,
-        y= tbl$pos_acum,
-        main= paste0( vcampo,  
-                      "    ROC curve,",
-                      ifelse(NAS==0," no hay NAs, ", " , NAs first, "),
-                      "\n",
-                      ifelse( orden==1, "", "invertido, " ),
-                      "AUC=", round(AUC,4) ),
-        xlab= "negativos",
-        ylab= "positivos",
-        xaxs= "i",
-        yaxs= "i",
-        xlim= c(0, NEG ),
-        ylim= c(0, POS ),
-        col= "blue",
-        type= "l",            #tipo  linea
-        lwd= 6,               #ancho de la linea
-        panel.first = grid()
-      )
-
-  #la diagonal
-  abline( a= 0, b= POS/NEG, col= "black", lwd= 2 )
-
+    #la diagonal
+    abline( a= 0, b= POS/NEG, col= "black", lwd= 2 )
+  }
 }
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
