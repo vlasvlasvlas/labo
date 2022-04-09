@@ -9,13 +9,13 @@ require("rpart")
 require("rpart.plot")
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("D:\\gdrive\\Austral2022R\\")  #Establezco el Working Directory
+setwd("F:\\labimp_1\\")  #Establezco el Working Directory
 
 #cargo los datos donde entreno
-dtrain  <- fread("./datasets/paquete_premium_202011.csv")
+dtrain  <- fread("datasets\\paquete_premium_202011.csv")
 
 #cargo los datos donde aplico el modelo
-dapply  <- fread("./datasets/paquete_premium_202101.csv")
+dapply  <- fread("datasets\\paquete_premium_202011.csv")
 
 
 #Establezco cuales son los campos que puedo usar para la prediccion
@@ -39,11 +39,11 @@ tb_ensembles  <-  copy( dapply[ , list( numero_de_cliente ) ] )
 
 #genero el archivo para Kaggle
 #creo la carpeta donde va el experimento
-dir.create( "./labo/exp/", showWarnings = FALSE  )
-dir.create( "./labo/exp/KA2101/", showWarnings = FALSE )
+dir.create( "labo\\exp\\", showWarnings = FALSE  )
+dir.create( "labo\\exp\\KA2101\\", showWarnings = FALSE )
 
 #aqui es donde voy a graficar los arboles
-pdf( "./labo/exp/KA2101/arbolitos.pdf", paper="a4r" )
+pdf( "labo\\exp\\KA2101\\arbolitos.pdf", paper="a4r" )
 
 #Genero los arboles y voy sumando la probabilidad que el arbol entrenado en 202011 asigna a cada registro de 202101
 
@@ -86,7 +86,7 @@ probabilidad_ensemble  <- probabilidad_ensemble / num_trees
 #asigngo el promedio y grabo
 tb_ensembles[  , prob_promedio := probabilidad_ensemble ]
 fwrite( tb_ensembles,
-        file="./labo/exp/KA2101/ensemble.csv",
+        file="labo\\exp\\KA2101\\ensemble.csv",
         sep="\t" )
 
 #Genero la entrega para Kaggle
@@ -95,11 +95,11 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 
 #genero el archivo para Kaggle
 #creo la carpeta donde va el experimento
-dir.create( "./labo/exp/", showWarnings = FALSE  )
-dir.create( "./labo/exp/KA2101/", showWarnings = FALSE )
+dir.create( "labo\\exp\\", showWarnings = FALSE  )
+dir.create( "labo\\exp\\KA2101\\", showWarnings = FALSE )
 
 #grabo el archivo para Kaggle
 fwrite( entrega, 
-        file= "./labo/exp/KA2101/K311_001.csv", 
+        file= "labo\\exp\\KA2101\\K311_001.csv", 
         sep= "," )
 

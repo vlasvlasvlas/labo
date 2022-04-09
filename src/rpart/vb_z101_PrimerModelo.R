@@ -40,11 +40,19 @@ modelo  <- rpart("clase_ternaria ~ .",
                  # minbucket = 375, #tamaño minimo de una hoja
                  # maxdepth  = 6
 
+#
+#cp	minsplit	minbucket	maxdepth	xval_folds
+#-0.628273264	2279	937	13	5
+
+#fecha	  cp 	minsplit	minbucket	maxdepth	xval_folds	 ganancia 	iteracion
+#20220408 082113	-0.14 	1479	603	5	5	 10,833,000.00 	87
+
+
                  xval = -1,
-                 cp=-1,
-                 minsplit=1000,
-                 minbucket=333,
-                 maxdepth=8
+                 cp= -0.03,
+                 minsplit= 900,
+                 minbucket=440,
+                 maxdepth=5
 
 #-1	8	1000	333	11018667
 
@@ -81,5 +89,5 @@ dir.create( "labo\\exp\\" )
 dir.create( "labo\\exp\\KA2001")
 
 fwrite( entrega, 
-        file= "labo\\exp\\KA2001/K101_011.csv", 
+        file= "labo\\exp\\KA2001/K101_016.csv", 
         sep= "," )
