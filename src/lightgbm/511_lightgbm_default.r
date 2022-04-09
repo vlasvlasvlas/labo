@@ -8,10 +8,10 @@ require("data.table")
 require("lightgbm")
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("D:\\gdrive\\Austral2022R\\")   #Establezco el Working Directory
+setwd("F:\\labimp_1\\")   #Establezco el Working Directory
 
 #cargo el dataset donde voy a entrenar
-dataset  <- fread("./datasets/paquete_premium_202011.csv", stringsAsFactors= TRUE)
+dataset  <- fread("datasets\\paquete_premium_202011.csv", stringsAsFactors= TRUE)
 
 
 #paso la clase a binaria que tome valores {0,1}  enteros
@@ -42,9 +42,9 @@ prediccion  <- predict( modelo,
 entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_cliente],
                                  "Predicted"= prediccion > 1/60)  ) #genero la salida
 
-dir.create( "./labo/exp/",  showWarnings = FALSE ) 
-dir.create( "./labo/exp/KA2511/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA2511/KA_511_001.csv"
+dir.create( "labo\\exp\\",  showWarnings = FALSE ) 
+dir.create( "labo\\exp\\KA2511", showWarnings = FALSE )
+archivo_salida  <- "labo\\exp\\KA2511\\KA_511_001.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
