@@ -4,6 +4,18 @@
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
+# primos
+# 295873
+# 527173
+# 328789
+# 825733
+# 191519
+# 341963
+# 590771
+# 765103
+# 402263
+# 584707
+
 require("data.table")
 require("lightgbm")
 
@@ -31,7 +43,7 @@ modelo  <- lgb.train( data= dtrain,
                     )
 
 #aplico el modelo a los datos sin clase
-dapply  <- fread("./datasets/paquete_premium_202101.csv")
+dapply  <- fread("datasets\\paquete_premium_202101.csv")
 
 #aplico el modelo a los datos nuevos
 prediccion  <- predict( modelo, 

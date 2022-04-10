@@ -33,11 +33,13 @@ dapply  <- na.roughfix( dapply )  #tambien imputo los nulos en los datos donde v
 #notar como la suma de muchos arboles contrarresta el efecto de min.node.size=1
 
 # promediando las hojas de los arboles
-param  <- list( "num.trees"=      2480,  # cantidad de arboles
-                "mtry"=              6,  # cantidad de variables que evalua para hacer un split  sqrt(ncol(dtrain))
-                "min.node.size"=   354,  # tamaño minimo de las hojas
-                "max.depth"=        27   # 0 significa profundidad infinita
+param  <- list( "num.trees"=      2600,  # cantidad de arboles
+                "mtry"=             20,  # cantidad de variables que evalua para hacer un split  sqrt(ncol(dtrain))
+                "min.node.size"=   354,  # tamano minimo de las hojas
+                "max.depth"=        15   # 0 significa profundidad infinita
               )
+
+# promediando las hojas de los arbolesparam  <- list( "num.trees"=       300,  # cantidad de arboles                "mtry"=             30,  # cantidad de variables que evalua para hacer un split  sqrt(ncol(dtrain))                "min.node.size"=   900,  # tamaño minimo de las hojas                "max.depth"=        10
 
 # primos
 # 295873
@@ -80,7 +82,7 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 dir.create( "labo\\exp\\",  showWarnings = FALSE ) 
 dir.create( "labo\\exp\\KA2411\\", showWarnings = FALSE )
 
-archivo_salida  <- "labo\\exp\\KA2411\\KA_411_002.csv"
+archivo_salida  <- "labo\\exp\\KA2411\\KA_411_004.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
