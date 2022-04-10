@@ -72,12 +72,23 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 #creo las carpetas
 dir.create( "./labo/exp/",  showWarnings = FALSE ) 
 dir.create( "./labo/exp/KA5520/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA5520/KA_552_001.csv"
+setwd( "./labo/exp/KA5520/" )
+
+archivo_salida  <- "KA_552_001.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
         file= archivo_salida, 
         sep= "," )
+
+
+#ahora imprimo la importancia de variables
+tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
+archivo_importancia  <- "IM_552_001.txt"
+
+fwrite( tb_importancia, 
+        file= archivo_importancia, 
+        sep= "\t" )
 
 
 #cuento cuantos 1's tiene la prediccion
