@@ -84,7 +84,7 @@ fwrite( entrega,
 
 #ahora imprimo la importancia de variables
 tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
-archivo_importancia  <- "IM_552_001.txt"
+archivo_importancia  <- "552_importancia_001.txt"
 
 fwrite( tb_importancia, 
         file= archivo_importancia, 
