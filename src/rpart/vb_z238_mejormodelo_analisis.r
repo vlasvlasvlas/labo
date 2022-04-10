@@ -301,7 +301,7 @@ fwrite( tbl,
 pdf("labo\\exp\\ST2005\\tres_modelos.pdf")
 
 grafico  <- ggplot( tbl, aes(x=gan, fill=modelo)) + geom_density(alpha=0.25) 
-print(grafico)
 
+print(grafico) # grabar grafico a pdf
 dev.off()
 
