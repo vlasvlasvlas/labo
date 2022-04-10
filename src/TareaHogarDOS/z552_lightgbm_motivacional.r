@@ -71,8 +71,8 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 #guardo el resultado
 #creo las carpetas
 dir.create( "./labo/exp/",  showWarnings = FALSE ) 
-dir.create( "./labo/exp/KA552/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA552/KA_552_001.csv"
+dir.create( "./labo/exp/KA5520/", showWarnings = FALSE )
+archivo_salida  <- "./labo/exp/KA5520/KA_552_001.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
