@@ -1,0 +1,29 @@
+vb_z231_mejormodelo output:
+
+> 
+> 
+> paramA  <- list( "cp"=         -1,  #complejidad minima
++                  "minsplit"=  300,  #minima cantidad de registros en un nodo para hacer el split
++                  "minbucket"= 150,  #minima cantidad de registros en una hoja
++                  "maxdepth"=    6 ) #profundidad mÃ¡xima del arbol
+> 
+> paramB  <- list( "cp"=          0,  #complejidad minima
++                  "minsplit"=   15,  #minima cantidad de registros en un nodo para hacer el split
++                  "minbucket"=   5,  #minima cantidad de registros en una hoja
++                  "maxdepth"=   10 ) #profundidad mÃ¡xima del arbol
+> 
+> paramC  <- list( "cp"=         -1,  #complejidad minima
++                  "minsplit"=   50,  #minima cantidad de registros en un nodo para hacer el split
++                  "minbucket"=  16,  #minima cantidad de registros en una hoja
++                  "maxdepth"=    6 ) #profundidad mÃ¡xima del arbol
+> 
+> 
+> #calculo el vector de 5 ganancias de cada uno de los param
+> ganA  <- ArbolesMontecarlo( ksemillas, paramA )
+> ganB  <- ArbolesMontecarlo( ksemillas, paramB )
+> ganC  <- ArbolesMontecarlo( ksemillas, paramC )
+> 
+> #imprimo la media de las ganancias
+> cat( mean(ganA), mean(ganB), mean(ganC) )
+
+10056667 9332667 9642667
