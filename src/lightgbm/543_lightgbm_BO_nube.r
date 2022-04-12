@@ -146,9 +146,9 @@ dataset  <- fread("./datasets/paquete_premium_202011.csv.gz")
 
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
-dir.create( "./labo/exp/",  showWarnings = FALSE ) 
-dir.create( "./labo/exp/HT5430/", showWarnings = FALSE )
-setwd("./labo/exp/HT5430/")   #Establezco el Working Directory DEL EXPERIMENTO
+dir.create( "./exp/",  showWarnings = FALSE ) 
+dir.create( "./exp/HT5430/", showWarnings = FALSE )
+setwd("./exp/HT5430/")   #Establezco el Working Directory DEL EXPERIMENTO
 
 
 #en estos archivos quedan los resultados
