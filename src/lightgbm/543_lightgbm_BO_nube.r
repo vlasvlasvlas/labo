@@ -112,8 +112,7 @@ EstimarGanancia_lightgbm  <- function( x )
                        stratified= TRUE, #sobre el cross validation
                        nfold= kfolds,    #folds del cross validation
                        param= param_completo,
-                       verbose= -100,
-                       seed= 999983
+                       verbose= -100
                       )
 
   #obtengo la ganancia
