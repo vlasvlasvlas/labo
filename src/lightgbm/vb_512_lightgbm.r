@@ -60,7 +60,7 @@ dapply  <- fread("datasets\\paquete_premium_202101.csv")
 
 #aplico el modelo a los datos nuevos
 prediccion  <- predict( modelo, 
-                        data.matrix( dapply[, campos_buenos, with=FALSE ]) )
+                        data.matrix( dapply[, campos_buenos, with=FALSE ])                                 )
 
 
 #Genero la entrega para Kaggle
@@ -75,13 +75,3 @@ archivo_salida  <- "labo\\exp\\KA2512/KA_512_002.csv"
 fwrite( entrega, 
         file= archivo_salida, 
         sep= "," )
-
-
-#ahora imprimo la importancia de variables
-tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
-archivo_importancia  <- "./labo/exp/KA2512/512_importancia_001.txt"
-
-fwrite( tb_importancia, 
-        file= archivo_importancia, 
-        sep= "\t" )
-
