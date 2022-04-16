@@ -34,16 +34,17 @@ kBO_iter  <- 100   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 hs <- makeParamSet( 
          makeNumericParam("learning_rate",    lower=  0.01 , upper=    0.03),
-         makeIntegerParam("num_iterations",   lower=  1 , upper=  500),
+         makeIntegerParam("num_iterations",   lower=  1 , upper=  440),
          makeNumericParam("num_leaves",   lower=  1 , upper=    40),
-         makeNumericParam("min_data_in_leaf",   lower=  1900 , upper=    3100),
+         makeNumericParam("min_data_in_leaf",   lower=  1900 , upper=    3300),
          makeNumericParam("feature_fraction", lower=  0.3  , upper=    0.6),
-        #makeNumericParam("prob_corte",       lower= 1/120 , upper=   1/20),
+         makeNumericParam("prob_corte",       lower= 1/120 , upper=   1/20),
          makeNumericParam("gleaf_size",       lower=  20.0 , upper=  100.0), #tamaño de la hoja en escala simil logaritmica
          makeNumericParam("gnum_leaves",      lower=   0.01, upper=    1.0)  #equivalente a un  "porcentaje de hojas"
         )
 
 ksemilla_azar  <- 825733  #Aqui poner la propia semilla
+
 # primos
 # 295873
 # 527173
@@ -60,7 +61,7 @@ ksemilla_azar  <- 825733  #Aqui poner la propia semilla
 #graba a un archivo los componentes de lista
 #para el primer registro, escribe antes los titulos
 
-loguear  <- function( reg, arch=NA, folder="./exp/", ext=".txt", verbose=TRUE )
+loguear  <- function( reg, arch=NA, folder="labo\\exp\\", ext=".txt", verbose=TRUE )
 {
   archivo  <- arch
   if( is.na(arch) )  archivo  <- paste0(  folder, substitute( reg), ext )
@@ -145,13 +146,13 @@ EstimarGanancia_lightgbm  <- function( x )
                           boost_from_average= TRUE,
                           feature_pre_filter= FALSE,
                           verbosity= -100,
-                          seed= 999983,
+                          seed= 825733,
                           max_depth=  -1,         # -1 significa no limitar,  por ahora lo dejo fijo
                           min_gain_to_split= 0.0, #por ahora, lo dejo fijo
                           lambda_l1= 0.0,         #por ahora, lo dejo fijo
                           lambda_l2= 0.0,         #por ahora, lo dejo fijo
                           max_bin= 31,            #por ahora, lo dejo fijo
-                          #num_iterations= 9999,    #un numero muy grande, lo limita early_stopping_rounds
+                          num_iterations= 9999,    #un numero muy grande, lo limita early_stopping_rounds
                           force_row_wise= TRUE    #para que los alumnos no se atemoricen con tantos warning
                         )
 
@@ -242,7 +243,7 @@ if( file.exists(klog) )
 #paso la clase a binaria que tome valores {0,1}  enteros
 #dataset[ , clase01 := ifelse( clase_ternaria=="BAJA+2", 1L, 0L) ]
 
-dataset[ , clase01:= ifelse( clase_ternaria=="CONTINUA", 0, 1 ) ]
+dataset[ , clase01:= ifelse( clase_ternaria=="CONTINUA", 0L, 1L ) ]
 
 #los campos que se van a utilizar
 campos_buenos  <- setdiff( colnames(dataset), 
