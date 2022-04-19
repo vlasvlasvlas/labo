@@ -35,7 +35,7 @@ ksemilla_azar  <- 527173  #Aqui poner la propia semilla
 
 # primos
 # 295873
-# 527173
+# 527173 - 2do seed
 # 328789
 # 825733
 # 191519
@@ -70,7 +70,7 @@ loguear  <- function( reg, arch=NA, folder="./work/", ext=".txt", verbose=TRUE )
   if( verbose )  cat( linea )   #imprimo por pantalla
 }
 #------------------------------------------------------------------------------
-#particionar agrega una columna llamada fold a un dataset que consiste en una particion estratificada segun agrupa
+# particionar agrega una columna llamada fold a un dataset que consiste en una particion estratificada segun agrupa
 # particionar( data=dataset, division=c(70,30), agrupa=clase_ternaria, seed=semilla)   crea una particion 70, 30 
 # particionar( data=dataset, division=c(1,1,1,1,1), agrupa=clase_ternaria, seed=semilla)   divide el dataset en 5 particiones
 
@@ -108,6 +108,7 @@ ranger_Simple  <- function( fold_test, pdata, param )
 
   return( ganancia_testing )
 }
+
 #------------------------------------------------------------------------------
 
 ranger_CrossValidation  <- function( data, param, pcampos_buenos, qfolds, pagrupa, semilla )
@@ -214,7 +215,7 @@ obj.fun  <- makeSingleObjectiveFunction(
               has.simple.signature = FALSE
              )
 
-ctrl  <- makeMBOControl( save.on.disk.at.time= 600,  save.file.path= kbayesiana)
+ctrl  <- makeMBOControl( save.on.disk.at.time= 300,  save.file.path= kbayesiana)
 ctrl  <- setMBOControlTermination(ctrl, iters= kBO_iter )
 ctrl  <- setMBOControlInfill(ctrl, crit= makeMBOInfillCritEI())
 

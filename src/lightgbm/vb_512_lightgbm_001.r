@@ -102,7 +102,10 @@ params_probar  <- list(
                        #learning_rate= 0.0225,   # 0.02 < learning_rate < 0.03,*best3
                        #learning_rate= 0.02345,   # 0.02 < learning_rate < 0.03, *best2
                        #learning_rate= 0.02322,   # 0.02 < learning_rate < 0.03, *best
-                       learning_rate= 0.02322,   # 0.02 < learning_rate < 0.03,
+                       #learning_rate= 0.02322,   # 0.02 < learning_rate < 0.03, #bestok
+                       learning_rate= 0.137532005375417,
+                       
+                       feature_fraction=0.634545958,
                        
                        
                        #num_iterations = 100,  # num_iterations < 400,
@@ -123,14 +126,16 @@ params_probar  <- list(
                        #min_data_in_leaf=1500,  # 2000 < min_data_in_leaf < 3000,*best3
                        #min_data_in_leaf=1444,  # 2000 < min_data_in_leaf < 3000, *best2 
                        #min_data_in_leaf=1469,  # 2000 < min_data_in_leaf < 3000, *best
-                       min_data_in_leaf=1469,   # 2000 < min_data_in_leaf < 3000, *best!
+                       #min_data_in_leaf=1469,   # 2000 < min_data_in_leaf < 3000, *best!
+                       min_data_in_leaf=386,
                        
                        
                        #num_leaves=29,          # num_leaves < 30, 
                        #num_leaves=17           # num_leaves < 30, *best3
                        #num_leaves=12           # num_leaves < 30, *best2
                        #num_leaves=13           # num_leaves < 30, *best!
-                       num_leaves=13            # num_leaves < 30,
+                       #num_leaves=13            # num_leaves < 30,
+                       num_leaves=27
 
                                               
 )
@@ -155,7 +160,7 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
                                     #"Predicted" = prediccion > 1/60)
                                     #"Predicted" = prediccion > 1/30)
                                  
-                                     "Predicted" = prediccion > mean(c(1/60, 1/50, 1/40, 1/30) )
+                                     "Predicted" = prediccion > 0.023 #mean(c(1/60, 1/50, 1/40, 1/30) )
                                  
                                                   # mean(c(1/60,1/30)
                                                   # 1/30 siguiendo zulip seria un numero entre esos dos
@@ -167,7 +172,7 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 
 dir.create( "labo\\exp\\",  showWarnings = FALSE ) 
 dir.create( "labo\\exp\\KA2512/", showWarnings = FALSE )
-archivo_salida  <- "labo\\exp\\KA2512/KA_512_036.csv"
+archivo_salida  <- "labo\\exp\\KA2512/KA_512_037.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
