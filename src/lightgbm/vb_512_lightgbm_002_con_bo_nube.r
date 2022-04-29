@@ -62,30 +62,30 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 
 params_probar  <- list( 
 
-                       # Default:
-                        objective= "binary",
-                        metric= "custom",
-                        first_metric_only= TRUE,
-                        boost_from_average= TRUE,
-                        feature_pre_filter= FALSE,
-                        verbosity= -100,
-                        max_depth=  -1,
-                        min_gain_to_split= 0.0,
-                        lambda_l1= 0.0,
-                        lambda_l2= 0.0,
-                        max_bin= 31,
-                        num_iterations= 609,
-                       force_row_wise= TRUE,
+                      # Default:
+                      objective= "binary",
+                      metric= "custom",
+                      first_metric_only= TRUE,
+                      boost_from_average= TRUE,
+                      feature_pre_filter= FALSE,
+                      verbosity= -100,
+                      max_depth=  -1,
+                      min_gain_to_split= 0.0,
+                      lambda_l1= 0.0,
+                      lambda_l2= 0.0,
+                      max_bin= 31,
+                      num_iterations= 609,
+                      force_row_wise= TRUE,
                        
-
-                       # BO_nube
-                       objective= "binary",
-                       seed= 999983,
-                       max_bin= 31,      
-                       learning_rate= 0.010144836, 
-                       feature_fraction=0.560971132, 
-                       min_data_in_leaf=2709,
-                       num_leaves=567
+                      
+                      # BO_nube
+                      objective= "binary",
+                      seed= 295873,
+                      max_bin= 31,      
+                      learning_rate= 0.010144836, 
+                      feature_fraction=0.560971132, 
+                      min_data_in_leaf=2709,
+                      num_leaves=567
 
                                               
 )
@@ -107,22 +107,16 @@ prediccion  <- predict( modelo,
 
 #Genero la entrega para Kaggle
 entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_cliente],
-                                    #"Predicted" = prediccion > 1/60)
-                                    #"Predicted" = prediccion > 1/30)
-                                 
-                                     "Predicted" = prediccion > 0.016106591 # 0.023 #mean(c(1/60, 1/50, 1/40, 1/30) )
-                                 
-                                                  # mean(c(1/60,1/30)
-                                                  # 1/30 siguiendo zulip seria un numero entre esos dos
-                                                  # probando con1/30 sino con mean de ambos
-                                                  # 0.025?
-                                 
-                                                  ) #list
-                                                  ) #genero la salida
+                                     "Predicted" = prediccion 
+                                 ))
+
+setorder(entrega, -Predicted)
+entrega[, Predicted := 0]
+entrega[1:11500, Predicted := 1]
 
 dir.create( "labo\\exp\\",  showWarnings = FALSE ) 
 dir.create( "labo\\exp\\KA2512/", showWarnings = FALSE )
-archivo_salida  <- "labo\\exp\\KA2512/KA_512_038_el38estacargado.csv"
+archivo_salida  <- "labo\\exp\\KA2512/KA_512_40_predicted_11500.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 

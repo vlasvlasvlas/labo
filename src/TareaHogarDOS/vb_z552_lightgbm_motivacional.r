@@ -18,7 +18,7 @@ require("data.table")
 require("lightgbm")
 
 
-ksemilla  <- 295873  #poner aqui la PRIMERA de sus cinco semillas
+ksemilla  <- 527173  #poner aqui la PRIMERA de sus cinco semillas
 
 # primos
 # 295873
@@ -58,14 +58,16 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 modelo  <- lgb.train( data= dtrain,
                       param= list( objective=        "binary",
                                    max_bin=              31,
-                                   learning_rate=         0.067,
-                                   num_iterations=      128,
-                                   num_leaves=          100,
-                                   min_data_in_leaf=   1700,
-                                   feature_fraction=      0.37,
+                                   learning_rate=         0.0101448362770203, #0.067,
+                                   num_iterations=      609,
+                                   num_leaves=         567, # 100,
+                                   min_data_in_leaf=   2709, #1700,
+                                   feature_fraction=     0.560971131928149, # 0.37,
                                    boost_from_average = TRUE, #fix 
                                    force_row_wise=TRUE, #fix
                                    verbose=-1, #fix
+                                   feature_pre_filter = FALSE, 
+                                   first_metric_only = TRUE,
                                    seed=               ksemilla   #aqui se utiliza SU primer semilla
                                   )
                     )
@@ -81,7 +83,8 @@ prediccion  <- predict( modelo,
 #Genero la entrega para Kaggle
 #Atencion ya NO corto por  1/60,  sino que busque el punto de corte optimo
 entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_cliente],
-                                 "Predicted"= as.integer(prediccion > 0.023)   ) ) #ATENCION  no es  1/60   0.0225!!!
+                                 "Predicted"= as.integer(prediccion > 0.0161065914337384 ) ))
+                           #0.023)   ) ) #ATENCION  no es  1/60   0.0225!!!
 
 #guardo el resultado
 #creo las carpetas
@@ -89,7 +92,7 @@ dir.create( "labo\\exp\\",  showWarnings = FALSE )
 dir.create( "labo\\exp\\KA5520\\", showWarnings = FALSE )
 setwd( "labo\\exp\\KA5520\\" )
 
-archivo_salida  <- "KA_552_001.csv"
+archivo_salida  <- "KA_552_003.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
@@ -99,7 +102,7 @@ fwrite( entrega,
 
 #ahora imprimo la importancia de variables
 tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
-archivo_importancia  <- "552_importancia_001.txt"
+archivo_importancia  <- "552_importancia_003.txt"
 
 fwrite( tb_importancia, 
         file= archivo_importancia, 
