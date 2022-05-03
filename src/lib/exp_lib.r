@@ -22,15 +22,7 @@ exp_finalizar  <- function( suicide= TRUE)
        file=   "log.txt",
        append= TRUE  )
 
-
-  #suicidio en Google Cloud,  elimina la maquina virtual directamente
-  system( "sleep 10  && 
-          export NAME=$(curl -X GET http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google') &&
-          export ZONE=$(curl -X GET http://metadata.google.internal/computeMetadata/v1/instance/zone -H 'Metadata-Flavor: Google') &&
-          gcloud --quiet compute instances delete $NAME --zone=$ZONE",
-          wait=FALSE )
-
-  quit( save="no" )  #salgo de R
+  quit( save= "no" )  #salgo de R
 }
 #------------------------------------------------------------------------------
 #cargo los catalogos de los experimentos requeridos por mi experimento
@@ -41,10 +33,10 @@ exp_cargar_catalogos  <- function( )
 
   for( depende  in EXP$experiment$requires )
   {
-    nom_arch <-  paste0( pref,
-                         depende,
-                         "/",
-                        EXP$environment$catalog  )
+    nom_arch  <-  paste0( pref,
+                          depende,
+                          "/",
+                          EXP$environment$catalog  )
 
     tb_cataloguito  <- fread( nom_arch )
 
@@ -55,7 +47,7 @@ exp_cargar_catalogos  <- function( )
     }
   }
 
-  tb_catalogo[  , distance  :=  distance + 1 ]
+  tb_catalogo[  , distance  := distance + 1 ]
   setorder( tb_catalogo, distance )
 }
 
@@ -352,8 +344,20 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
   exp_exp_dir  <- paste0( exp_dir, exp_name, "/" )
   if( dir.exists( exp_exp_dir ) )   raise_error( paste0( "debe llamar a  exp_restart() , ya existe la carpeta: " , exp_exp_dir ) )
 
+  #creo la carpeta del experimento generalmente en  ~/buckets/b1/exp
   res  <- dir.create( exp_exp_dir,  showWarnings= FALSE )
   if( res == FALSE )  raise_error( paste0( "No se pudo crear la carpeta: ", exp_exp_dir )) 
+
+  #creo la carpeta compartida
+  
+  user_dir  <- paste0( "/media/expshared/" , Sys.info()["user"] )
+  dir.create( user_dir,  showWarnings= FALSE )
+
+  userexp_dir  <- paste0( "/media/expshared/" , Sys.info()["user"], "/exp/" )
+  dir.create( userexp_dir,  showWarnings= FALSE )
+  
+  shared_dir  <- paste0( "/media/expshared/" , Sys.info()["user"], "/exp/", exp_name , "/" )
+  dir.create( shared_dir,  showWarnings= FALSE )
 
   #copio el archivo del experimento
   repo_exp_dir  <- paste0( repo_dir, "exp/", exp_name, "/" )
@@ -368,11 +372,17 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
   }
 
   archivo_original  <- paste0( repo_exp_dir, archivo_experimento )
+  #copio el .yml del experimento generalmente a  ~/buckets/b1/exp/<experimento>
   res  <- file.copy( archivo_original, exp_exp_dir )
   archivo_destino  <- paste0( exp_exp_dir, archivo_experimento )
   if( res==FALSE )  raise_error( paste0( "No se pudo crear el archivo: ", archivo_destino )) 
   #dejo readonly el archivo
   Sys.chmod( archivo_destino, mode = "444", use_umask = TRUE)
+
+  #copio el .yml del experimento generalmente a  ~/media/expshared/<usuario>/exp/<experimento>
+  res  <- file.copy( archivo_original, shared_dir, overwrite= TRUE )
+  archivo_destino  <- paste0( shared_dir, archivo_experimento )
+
 
   #me paro en la carpeta del experimento
   setwd( exp_exp_dir )
@@ -397,8 +407,17 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
 
   linea7  <- "fecha1=$(date +\"%Y%m%d %H%M%S\") \n"
   linea8  <- "echo \"$exp_name\"\"$tabulador\"\"$fecha1\"\"$tabulador\"\"SH_END\" >> log.txt \n"
+  
+  #esta linea debe cambiarse por un rsync
+  linea9  <- paste0( "find ./ ! -name *.gz ! -name . -exec cp -prt ",  shared_dir, "  {} +  \n")
 
-  comando  <- paste0( linea1, linea2, linea3, linea4, linea5, linea6, linea7, linea8 )
+  linea10  <- "\n#suicidio\n" 
+  linea11  <- "export NAME=$(curl -X GET http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google') \n"
+  linea12  <- "export ZONE=$(curl -X GET http://metadata.google.internal/computeMetadata/v1/instance/zone -H 'Metadata-Flavor: Google') \n"
+  linea13  <- "gcloud --quiet compute instances delete $NAME --zone=$ZONE \n"
+
+
+  comando  <- paste0( linea1, linea2, linea3, linea4, linea5, linea6, linea7, linea8, linea9, linea10, linea11, linea12, linea13 )
   shell_script  <- paste0( exp_name, ".sh" )
   cat( comando, 
        file= shell_script )
@@ -524,7 +543,7 @@ exp_log  <- function( reg, arch=NA, folder="./work/", ext=".txt", verbose=TRUE )
 
 #source( "~/labo/src/lib/exp_lib.r" ) 
 
-#exp_start( "FE9120" )
+#exp_start( "FE8120" )
 #exp_start( "TS9210" )
 
 #exp_start( "HT9310" )
@@ -533,3 +552,5 @@ exp_log  <- function( reg, arch=NA, folder="./work/", ext=".txt", verbose=TRUE )
 #exp_start( "FM9410" )
 #exp_start( "SC9510" )
 #exp_start( "KA9610" )
+
+#exp_start( "ZZ8410" )
