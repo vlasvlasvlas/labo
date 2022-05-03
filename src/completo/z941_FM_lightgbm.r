@@ -115,7 +115,7 @@ for( i in  1:PARAM$modelos_qty )
 # es lo ultimo que hago, indica que llegue a generar la salida
 #no todos los archivos generados pasan al catalogo
 
-exp_catalog_add( action= "FE",
+exp_catalog_add( action= "FM",
                  type=   "file",
                  key=    "tb_modelos",
                  value = PARAM$files$output$tb_modelos  )
