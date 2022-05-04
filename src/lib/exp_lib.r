@@ -6,13 +6,55 @@
 require("rlist")
 require("yaml")
 require("data.table")
+require("mlflow")
 
+#------------------------------------------------------------------------------
+#Estoy al inicio del log, luego de grabar los titulos
+#inicializo el ambiente de mlflow
+
+exp_mlflow_iniciar  <- function()
+{
+  #leo uri, usuario y password
+  MLFLOW  <<- read_yaml( "/media/expshared/mlflow.yml" )
+
+  Sys.setenv( MLFLOW_TRACKING_USERNAME= MLFLOW$tracking_username )
+  Sys.setenv( MLFLOW_TRACKING_PASSWORD= MLFLOW$tracking_password )
+  mlflow_set_tracking_uri( MLFLOW$tracking_uri )
+
+  Sys.setenv(MLFLOW_BIN=system("which mlflow", intern= TRUE))
+  Sys.setenv(MLFLOW_PYTHON_BIN=system("which python3", intern= TRUE ))
+  Sys.setenv(MLFLOW_TRACKING_URI= MLFLOW$tracking_uri, intern= TRUE )
+
+  #creo el experimento
+  user_st  <-  Sys.info()["user"]
+  FE_st    <- tb_catalogo[ action=="FE" , experiment ]
+  TS_st    <- tb_catalogo[ action=="TS" , unique( experiment ) ]
+  exp_st   <- paste0( "/", user_st, "/", FE_st, "/", TS_st )
+  mlflow_set_experiment( exp_st )   #si ya esta creado, no pasa nada
+
+  #agrego tags  al  experimento, si ya estan creados no pasa nada
+  mlflow_set_experiment_tag( key= "user", value= user_st )
+  mlflow_set_experiment_tag( key= "FE", value= "FE_st" )
+  mlflow_set_experiment_tag( key= "TS", value= "TS_st" )
+
+  #inicio el  run
+  #res  <- mlflow_start_run( nested= TRUE )
+
+  #agrego tags al  run
+  #HT_st  <- EXP$experiment$name
+  #mlflow_set_tag( key="HT", value= HT_st )
+  #mlflow_log_artifact( paste0( getwd(), "/", EXP$experiment$name, ".yml") )
+
+}
 #------------------------------------------------------------------------------
 
 exp_finalizar  <- function( suicide= TRUE)
 {
   #termino de correr el script
 
+  #cierro el run  de mlflow  en caso que exista
+  if( exists( "MLFLOW" ) )  mlflow_end_run()
+  
   #agrego al log.txt que el script R termino
   st  <- paste0( EXP$experiment$name, "\t",
                  format(Sys.time(), "%Y%m%d %H%M%S"),"\t",
@@ -340,7 +382,7 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
 {
   exp_verificar( exp_name, repo_dir, exp_dir )
 
-  #si ya exista la carpeta del experimento,  aborto
+  #si ya existe la carpeta del experimento,  aborto
   exp_exp_dir  <- paste0( exp_dir, exp_name, "/" )
   if( dir.exists( exp_exp_dir ) )   raise_error( paste0( "debe llamar a  exp_restart() , ya existe la carpeta: " , exp_exp_dir ) )
 
@@ -349,7 +391,7 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
   if( res == FALSE )  raise_error( paste0( "No se pudo crear la carpeta: ", exp_exp_dir )) 
 
   #creo la carpeta compartida
-  
+
   user_dir  <- paste0( "/media/expshared/" , Sys.info()["user"] )
   dir.create( user_dir,  showWarnings= FALSE )
 
@@ -515,7 +557,7 @@ exp_catalog_add  <- function( action, type, key, value )
 #para el primer registro, escribe antes los titulos
 #aqui se agregara  mlflow
 
-exp_log  <- function( reg, arch=NA, folder="./work/", ext=".txt", verbose=TRUE )
+exp_log  <- function( reg, arch=NA, folder="./", ext=".txt", verbose=TRUE )
 {
   archivo  <- arch
   if( is.na(arch) )  archivo  <- paste0(  folder, substitute( reg), ext )
@@ -527,6 +569,8 @@ exp_log  <- function( reg, arch=NA, folder="./work/", ext=".txt", verbose=TRUE )
                       paste( list.names(reg), collapse="\t" ), "\n" )
 
     cat( linea, file=archivo )
+
+    exp_mlflow_iniciar( )
   }
 
   linea  <- paste0( EXP$experiment$name, "\t",
@@ -536,12 +580,40 @@ exp_log  <- function( reg, arch=NA, folder="./work/", ext=".txt", verbose=TRUE )
   cat( linea, file=archivo, append=TRUE )  #grabo al archivo
 
   if( verbose )  cat( linea )   #imprimo por pantalla
+
+  #grabo mlflow
+
+ #inicio el  run
+  res  <- mlflow_start_run( nested= TRUE )
+
+  #agrego tags al  run
+  HT_st  <- EXP$experiment$name
+  mlflow_set_tag( key="HT", value= HT_st )
+  
+  #seteo el nombre del experimento
+  mlflow_log_param( "experimento", EXP$experiment$name )
+
+  for( nombre  in  names( reg ) )
+  {
+
+    if( is.character( reg[[ nombre ]] )  ) {
+
+      mlflow_log_param( nombre, reg[[ nombre ]] )
+
+    } else {
+    
+      if( nombre != "ganancia"  )  mlflow_log_param( nombre, reg[[ nombre ]] )
+      if( nombre == "ganancia"  )  mlflow_log_metric( nombre, reg[[ nombre ]] )
+    }
+
+  }
 }
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 
 
 #source( "~/labo/src/lib/exp_lib.r" ) 
+#exp_start( "HT8312" )
 
 #exp_start( "FE8120" )
 #exp_start( "TS9210" )
