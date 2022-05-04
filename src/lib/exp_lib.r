@@ -451,7 +451,7 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
   linea8  <- "echo \"$exp_name\"\"$tabulador\"\"$fecha1\"\"$tabulador\"\"SH_END\" >> log.txt \n"
   
   #esta linea debe cambiarse por un rsync
-  linea9  <- paste0( "find ./ ! -name *.gz ! -name . -exec cp -prt ",  shared_dir, "  {} +  \n")
+  linea9  <- paste0( "find ./ ! -name \"*.gz\" ! -name . -exec cp -prt ",  shared_dir, "  {} +  \n")
 
   linea10  <- "\n#suicidio\n" 
   linea11  <- "export NAME=$(curl -X GET http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google') \n"
