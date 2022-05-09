@@ -614,7 +614,7 @@ exp_log  <- function( reg, arch=NA, folder="./", ext=".txt", verbose=TRUE )
 
 #source( "~/labo/src/lib/exp_lib.r" ) 
 #exp_start( "FE8120" )
-#exp_start( "TS8120" )
+#exp_start( "TS8210" )
 #exp_start( "HT8310" )
 
 #exp_start( "FE8120" )
