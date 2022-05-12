@@ -1,21 +1,27 @@
 #Hyperparameter Tuning
-
+# HT9311.yml
 googlecloud:
-  RAM:   128
-  vCPU:    8
-  disk:  300
+  RAM:   300
+  vCPU:   10
+  disk:  512
 
 
 experiment:
   script: "src/completo/z931_HT_lightgbm.r"
   restart: TRUE
   name: "exp"
-  requires:   [ "TS9210" ]
+  requires:   [ "TS9211" ]
 
+# primos
+# 295873
+# 527173
+# 328789 
+# 825733 *
+# 191519
 
 param:
   algoritmo:  "lightgbm"
-  semilla: 102191 # aca va nuestra semilla 
+  semilla: 825733 # aca va nuestra semilla 
   crossvalidation: FALSE
   crossvalidation_folds: 5
   validate: FALSE
