@@ -10,6 +10,7 @@ experiment:
   name: "exp"
   requires: [ "FE9121" ]
 
+# exp 1 parte 2
 
 #102191
 
@@ -17,7 +18,7 @@ experiment:
 # 295873
 # 527173
 # 328789 
-# 825733
+# 825733 *
 # 191519
 
 # preseteado en yml
@@ -39,8 +40,8 @@ param:
   train:
     periodos: [ ]
     rango:
-      desde:  201910
-      hasta:  202010
+      desde:  202001
+      hasta:  202009
     excluir: [ 202006 ]
     undersampling: [ {clase: "CONTINUA", prob: 0.1 } ]
 
