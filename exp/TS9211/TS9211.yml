@@ -1,3 +1,5 @@
+# TS9211.yml
+
 googlecloud:
   RAM:   256
   vCPU:    8
@@ -8,7 +10,7 @@ experiment:
   script: "src/completo/z921_TS_generico.r"
   restart: FALSE
   name: "exp"
-  requires: [ "FE9121" ]
+  requires: [ "FE9121" ] # FE9121.yml
 
 # exp 1 parte 2
 
@@ -40,7 +42,7 @@ param:
   train:
     periodos: [ ]
     rango:
-      desde:  202001
+      desde:  201912
       hasta:  202009
     excluir: [ 202006 ]
     undersampling: [ {clase: "CONTINUA", prob: 0.1 } ]
@@ -67,7 +69,7 @@ param:
   train_final:
     periodos: [ ]
     rango:
-      desde:  202001
+      desde:  201912
       hasta:  202011
     excluir: [ 202006 ]
     undersampling: [  ]
