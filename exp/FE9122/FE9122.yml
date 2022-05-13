@@ -1,0 +1,64 @@
+googlecloud:
+  RAM:   300
+  vCPU:   12
+  disk:  320
+
+
+experiment:
+  script: "src/completo/z912_FE_desborde_001_polinomica.r" # nuevas vars
+  restart: FALSE
+  name: "exp"
+  requires: [ "DT0001" ]
+
+
+param:
+  dummiesNA: TRUE
+
+  corregir: TRUE    #se se corrige los campos/foto_mes  MALOS
+  variablesdrift: ["tmobile_app","internet"] #variables que se eliminan porque estan mal en el futuro - 
+  # pruebo drifteando celular , internet
+  
+  variablesmanuales: TRUE
+
+  acumulavars: TRUE   #a lo nuevo lo va aplicando
+
+  tendenciaYmuchomas: 
+    correr: TRUE #Great power comes with great responsability
+    ventana: 6
+    tendencia: TRUE
+    minimo:    FALSE
+    maximo:    FALSE
+    promedio:  TRUE # FALSE
+    ratioavg:  TRUE # FALSE
+    ratiomax:  TRUE # FALSE
+
+
+  #lags y sus deltas , 6 posiciones
+  #lag:   [ TRUE, TRUE, FALSE, FALSE, FALSE, FALSE ]
+  lag:   [ TRUE, TRUE, TRUE, FALSE, FALSE, FALSE ]
+  #delta: [ TRUE, TRUE, FALSE, FALSE, FALSE, FALSE ]
+  delta: [ TRUE, TRUE, TRUE, FALSE, FALSE, FALSE ]
+  #canaritosratio: [ 0.3, 0.1, 0, 0, 0, 0 ]
+  canaritosratio: [ 0.3, 0.1, 0.0, 0, 0, 0 ]
+
+  tony:  TRUE #FALSE
+
+
+  files:
+    input:
+      dentrada: [ "dataset" ]
+    output:
+      dsalida: "paquete_premium_ext.csv.gz"
+
+  const:
+    clase: "clase_ternaria"
+    futuro: [ 202101 ]
+    campos_sort:  [ "numero_de_cliente", "foto_mes" ]   #por donde hago el sort inicial
+    campos_fijos: [ "numero_de_cliente", "foto_mes", "mes", "clase_ternaria" ]
+    modelo:
+
+
+environment:
+  repo_dir: "~/labo/"
+  exp_dir:  "~/buckets/b1/exp/"
+  catalog:  "catalogo.txt"

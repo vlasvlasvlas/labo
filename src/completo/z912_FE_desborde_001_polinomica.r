@@ -248,8 +248,59 @@ AgregarVariables  <- function( dataset )
   dataset[ , mvr_mpagominimo         := mv_mpagominimo  / mv_mlimitecompra ]
 
   #Aqui debe usted agregar sus propias nuevas variables
+  
+  # Creadas en team!
 
+  # cliente_edad
+  dataset[ , varnueva_01 := cliente_edad * cpayroll_trx ]
+  dataset[ , varnueva_02 := cliente_edad * mcuentas_saldo ]
+  dataset[ , varnueva_03 := cliente_edad * mcaja_ahorro ]
+  dataset[ , varnueva_04 := cliente_edad * ctarjeta_visa_trx ]
+  dataset[ , varnueva_05 := cliente_edad * mtarjeta_visa_consumo ]
+  dataset[ , varnueva_06 := cliente_edad * mprestamos_personales ]
+  dataset[ , varnueva_07 := cliente_edad * mrentabilidad_annual ]
+  dataset[ , varnueva_08 := cliente_edad * mactivos_margen ]
+  
+  # ctrx_quarter
+  dataset[ , varnueva_09 := ctrx_quarter * cpayroll_trx ]
+  dataset[ , varnueva_10 := ctrx_quarter * mcuentas_saldo ]
+  dataset[ , varnueva_11 := ctrx_quarter * mcaja_ahorro ]
+  dataset[ , varnueva_12 := ctrx_quarter * ctarjeta_visa_trx ]
+  dataset[ , varnueva_13 := ctrx_quarter * mtarjeta_visa_consumo ]
+  dataset[ , varnueva_14 := ctrx_quarter * mprestamos_personales ]
+  dataset[ , varnueva_15 := ctrx_quarter * mrentabilidad_annual ]
+  dataset[ , varnueva_16 := ctrx_quarter * mactivos_margen ]
+  dataset[ , varnueva_17 := ctrx_quarter * cliente_edad ]
 
+  # cpayroll_trx
+  dataset[ , varnueva_18 := cpayroll_trx * mcuentas_saldo ]
+  dataset[ , varnueva_19 := cpayroll_trx * mcaja_ahorro ]
+  dataset[ , varnueva_20 := cpayroll_trx * ctarjeta_visa_trx ]
+  dataset[ , varnueva_21 := cpayroll_trx * mtarjeta_visa_consumo ]
+  dataset[ , varnueva_22 := cpayroll_trx * mprestamos_personales ]
+  dataset[ , varnueva_23 := cpayroll_trx * mrentabilidad_annual ]
+  dataset[ , varnueva_24 := cpayroll_trx * mactivos_margen ]
+  
+  # mtarjeta_visa_consumo
+  dataset[ , varnueva_25 := mtarjeta_visa_consumo * cpayroll_trx ]
+  dataset[ , varnueva_26 := mtarjeta_visa_consumo * mcuentas_saldo ]
+  dataset[ , varnueva_27 := mtarjeta_visa_consumo * mcaja_ahorro ]
+  dataset[ , varnueva_28 := mtarjeta_visa_consumo * ctarjeta_visa_trx ]
+  dataset[ , varnueva_29 := mtarjeta_visa_consumo * mtarjeta_visa_consumo ]
+  dataset[ , varnueva_30 := mtarjeta_visa_consumo * mprestamos_personales ]
+  dataset[ , varnueva_31 := mtarjeta_visa_consumo * mrentabilidad_annual ]
+  dataset[ , varnueva_32 := mtarjeta_visa_consumo * mactivos_margen ]
+  
+  # prestamos 
+  dataset[ , varnueva_33 := mprestamos_personales + mprestamos_prendarios + mprestamos_hipotecarios ]
+  dataset[ , varnueva_34 := cprestamos_personales + cprestamos_prendarios + cprestamos_hipotecarios ]
+  dataset[ , varnueva_35 := varnueva_33/varnueva_34 ]
+  
+  # polinómica
+  dataset[ , varnueva_36 := mcuentas_saldo * 0.11 + cliente_edad * 0.04 + Master_fechaalta * 0.04 + mactivos_margen * 0.09 +
+             mrentabilidad_annual * 0.06 + mpayroll * 0.15 + ctrx_quarter * 0.63 + cpayroll_trx * 0.23 + mpasivos_margen * 0.19+
+             mtarjeta_visa_consumo * 0.12]
+			 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
   infinitos      <- lapply(names(dataset),function(.name) dataset[ , sum(is.infinite(get(.name)))])
@@ -552,6 +603,9 @@ if( PARAM$dummiesNA )  DummiesNA( dataset )  #esta linea debe ir ANTES de Correg
 if( PARAM$corregir )  Corregir( dataset )  #esta linea debe ir DESPUES de  DummiesNA
 
 if( PARAM$variablesmanuales )  AgregarVariables( dataset )
+
+if( PARAM$variablesmanuales )  CanaritosImportancia( canaritos_ratio= unlist(PARAM$canaritosratio[ i ]) )
+
 
 
 #--------------------------------------
