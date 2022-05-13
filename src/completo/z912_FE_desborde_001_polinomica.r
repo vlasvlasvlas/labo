@@ -604,7 +604,7 @@ if( PARAM$corregir )  Corregir( dataset )  #esta linea debe ir DESPUES de  Dummi
 
 if( PARAM$variablesmanuales )  AgregarVariables( dataset )
 
-if( PARAM$variablesmanuales )  CanaritosImportancia( canaritos_ratio= unlist(PARAM$canaritosratio[ i ]) )
+# espacio para funciones, y posibilidad de usar if variables manuales
 
 
 
