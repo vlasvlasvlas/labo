@@ -427,7 +427,8 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
   Sys.chmod( archivo_destino, mode = "444", use_umask = TRUE)
 
   #copio el .yml del experimento generalmente a  ~/media/expshared/<usuario>/exp/<experimento>
-  res  <- file.copy( archivo_original, shared_dir, overwrite= TRUE )
+  # fix
+  # res  <- file.copy( archivo_original, shared_dir, overwrite= TRUE ) 
   archivo_destino  <- paste0( shared_dir, archivo_experimento )
 
 
