@@ -1,9 +1,9 @@
 #Final Model Creation
 # ZZ8412.yml
 googlecloud:
-  RAM:   256
+  RAM:   300
   vCPU:   12
-  disk:  300
+  disk:  320
 
 
 experiment:
@@ -13,7 +13,7 @@ experiment:
   requires:   [ "HT9311" ]
 
 param:
-  modelos_qty: 10
+  modelos_qty: 7
   clase_train_POS:    [ "BAJA+2", "BAJA+1" ]
   clase_test_POS:     [ "BAJA+2" ]
   KA_start: 11000
