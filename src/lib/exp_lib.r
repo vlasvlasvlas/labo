@@ -428,9 +428,9 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
 
   #copio el .yml del experimento generalmente a  ~/media/expshared/<usuario>/exp/<experimento>
   
-  # fix 2--
-  # res  <- file.copy( archivo_original, shared_dir, overwrite= TRUE ) 
-  # archivo_destino  <- paste0( shared_dir, archivo_experimento )
+  # fix 2--comentar siguientes 2 lineas
+  res  <- file.copy( archivo_original, shared_dir, overwrite= TRUE ) 
+  archivo_destino  <- paste0( shared_dir, archivo_experimento )
 
 
   #me paro en la carpeta del experimento
@@ -466,11 +466,13 @@ exp_start  <- function( exp_name= NA, repo_dir= "~/labo/", exp_dir= "~/buckets/b
   linea13  <- "gcloud --quiet compute instances delete $NAME --zone=$ZONE \n"
 
 
-  #comando  <- paste0( linea1, linea2, linea3, linea4, linea5, linea6, linea7, linea8, linea9, linea10, linea11, linea12, linea13 )
+  
 
+  
+  comando  <- paste0( linea1, linea2, linea3, linea4, linea5, linea6, linea7, linea8, linea9, linea10, linea11, linea12, linea13 )
   # fix 1--
   # sin cp 
-  comando  <- paste0( linea1, linea2, linea3, linea4, linea5, linea6, linea7, linea8, linea10, linea11, linea12, linea13 )
+  # comando  <- paste0( linea1, linea2, linea3, linea4, linea5, linea6, linea7, linea8, linea10, linea11, linea12, linea13 )
   
   shell_script  <- paste0( exp_name, ".sh" )
   cat( comando, 
