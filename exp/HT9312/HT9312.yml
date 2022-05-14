@@ -78,7 +78,7 @@ param:
     noisy: TRUE
     minimize: FALSE
     has.simple.signature: FALSE
-    save.on.disk.at.time: 600
+    save.on.disk.at.time: 100
 
 
   files:

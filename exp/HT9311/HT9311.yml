@@ -40,9 +40,10 @@ param:
     num_leaves:         [ 32, 1024, "integer" ] # [ 16, 1024, "integer" ]
     min_data_in_leaf:   [ 100, 7900, "integer" ] # [  0, 8000, "integer" ]
 
-    lambda_l1: [  0, 8, "integer" ]  # [ 0  ,  10]
-    lambda_l2: [  0, 150, "integer" ] # [ 0  , 200] 
-    min_gain_to_split: [  0, 15, "integer" ] # [ 0  ,  20]
+    lambda_l1: [  0, 7, "integer" ]  # [ 0  ,  10]
+    lambda_l2: [  0, 150, "integer" ] # [ 0  , 200]
+    
+    min_gain_to_split: [  0, 5, "integer" ] # [ 0  ,  20]
     bagging_fraction: 1.0            # [ 0.2,   1.0 ]
 
     pos_bagging_fraction: 1.0        # dejarlo fijo
@@ -78,7 +79,7 @@ param:
     noisy: TRUE
     minimize: FALSE
     has.simple.signature: FALSE
-    save.on.disk.at.time: 600
+    save.on.disk.at.time: 100
 
 
   files:
