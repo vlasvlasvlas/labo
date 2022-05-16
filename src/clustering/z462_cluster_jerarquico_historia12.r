@@ -128,8 +128,8 @@ hclust.rf  <- hclust( as.dist ( 1.0 - modelo$proximity),  #distancia = 1.0 - pro
 
 #primero, creo la carpeta donde van los resultados
 dir.create( "./exp/", showWarnings= FALSE )
-dir.create( "./exp/ST4620", showWarnings= FALSE )
-setwd( "~/buckets/b1/exp/ST4620" )
+dir.create( "./exp/ST462", showWarnings= FALSE )
+setwd( "~/buckets/b1/exp/ST462" )
 
 
 #imprimo un pdf con la forma del cluster jerarquico
@@ -161,7 +161,7 @@ dataset[  , .N,  cluster2 ]  #tamaño de los clusters
 
 #grabo el dataset en el bucket, luego debe bajarse a la PC y analizarse
 fwrite( dataset,
-        file= "cluster_de_bajas.txt",
+        file= "cluster_de_bajas_ST462.txt",
         sep= "\t" )
 
 
@@ -174,6 +174,7 @@ dataset[  , mean(ctrx_quarter),  cluster2 ]  #media de la variable  ctrx_quarter
 dataset[  , mean(mtarjeta_visa_consumo),  cluster2 ]
 dataset[  , mean(mcuentas_saldo),  cluster2 ]
 dataset[  , mean(chomebanking_trx),  cluster2 ]
+
 
 
 #Finalmente grabo el archivo para  Juan Pablo Cadaveira
