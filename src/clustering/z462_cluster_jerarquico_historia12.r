@@ -44,14 +44,72 @@ dataset  <- na.roughfix( dataset )
 #los campos que arbitrariamente decido considerar para el clustering
 #por supuesto, se pueden cambiar
 campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_trx",
-                     "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
+                     "mcuentas_saldo", "mrentabilidad_annual", 
+                     
+                     "mprestamos_personales", 
+                     "mprestamos_hipotecarios",
+                     
+                     "mplazo_fijo_dolares",
+                     "mplazo_fijo_pesos",
+                     
+                     
+                     "mactivos_margen", "mpayroll",
                      "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_trx", "Visa_msaldopesos",
                      "Visa_Fvencimiento", "mrentabilidad", "Visa_msaldototal", "Master_Fvencimiento", "mcuenta_corriente",
                      "Visa_mpagospesos", "Visa_fechaalta", "mcomisiones_mantenimiento", "Visa_mfinanciacion_limite",
                      "mtransferencias_recibidas", "cliente_antiguedad", "Visa_mconsumospesos", "Master_mfinanciacion_limite",
-                     "mcaja_ahorro_dolares", "cproductos", "mcomisiones_otras", "thomebanking", "mcuenta_debitos_automaticos",
+                     "mcaja_ahorro_dolares", 
+                     
+                     "cproductos", 
+                     
+                     "mcomisiones_otras", "thomebanking", "mcuenta_debitos_automaticos",
                      "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
-                     "mpagomiscuentas")
+                     "mpagomiscuentas",
+                     
+                     
+                     "tcuentas",
+                     
+                     
+                     "cforex",
+                     "cforex_buy",
+                     "mforex_buy2",
+                     "cforex_sell",
+                     "mforex_sell",
+                     
+                     
+                     
+                     "ccheques_depositados",
+                     "mcheques_depositados",
+                     "ccheques_emitidos",
+                     "mcheques_emitidos",
+                     
+                     
+                     
+                     "ccheques_emitidos_rechazados",
+                     "mcheques_emitidos_rechazados",
+                     
+                     
+                     # mi cliente usa o prefiere mi banco?
+                     "cextraccion_autoservicio",
+                     "ccajas_extracciones",
+                     "matm",
+                     "matm_other",
+                     
+                     
+                     
+                     # es vip
+                     "cliente_vip",
+                     
+                     # usa el celular
+                     "cmobile_app_trx"
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     )
 
 
 
