@@ -1,5 +1,5 @@
 #Final Model Creation
-# ZZ84993.yml
+# ZZ84991.yml
 googlecloud:
   RAM:   300
   vCPU:   12
@@ -10,12 +10,12 @@ experiment:
   script: "src/completo/z999_ZZ_lightgbm_semillerio.r"
   restart: TRUE
   name: "exp"
-  requires:   [ "HT9312" ] # HT8412
+  requires:   [ "HT9311" ] # HT8412
 
 param:
   semillerio:  100     #nuevo parámetro, cantidad de semillas que se le cambia al lightgbm y se ensamblan
                       #cuanto mas grande, mejor ganancia; pero demora mucho mas en correr
-  modelos_qty:  1
+  modelos_qty:  3
   clase_train_POS:    [ "BAJA+2", "BAJA+1" ]
   clase_test_POS:     [ "BAJA+2" ]
   KA_start: 11000
