@@ -15,7 +15,7 @@ experiment:
 param:
   semillerio:  100     #nuevo parámetro, cantidad de semillas que se le cambia al lightgbm y se ensamblan
                       #cuanto mas grande, mejor ganancia; pero demora mucho mas en correr
-  modelos_qty:  1 # por mas que mi mejor ganancia fue modelo 201, el primero, traigo los 3 primeros 
+  modelos_qty:  3 # por mas que mi mejor ganancia fue modelo 201, el primero, traigo los 3 primeros 
   # modelos_qty:  1
   # porque mi mejor ganancia fue:
   # exp\HT9312
